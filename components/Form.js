@@ -9,6 +9,7 @@ function EnhancedExample() {
   const [clientId, setClientId] = useState("-----------");
   const [clientSecret, setClientSecret] = useState("");
   const [validClientSecret, setValidClientSecret] = useState(true);
+  const [isFormValid, setIsFormValid] = useState(false);
 
   const generateClientId = () => {
     const randomString = Math.random().toString(36).substring(2, 10);
@@ -19,10 +20,14 @@ function EnhancedExample() {
     const newClientSecret = event.target.value;
     setClientSecret(newClientSecret);
 
-    if (newClientSecret.length >= 8 && /^[a-zA-Z0-9]+$/.test(newClientSecret)) {
+    if (newClientSecret.length >= 8 &&
+        /^[a-zA-Z0-9@#$!-]+$/.test(newClientSecret) &&
+        /[!@#$]/.test(newClientSecret)) {
       setValidClientSecret(true);
+      setIsFormValid(true);
     } else {
       setValidClientSecret(false);
+      setIsFormValid(false);
     }
   };
 
@@ -36,7 +41,7 @@ function EnhancedExample() {
     };
 
     try {
-      const response = await fetch("http:localost:5000/singlesignon", {
+      const response = await fetch("http://localhost:5000/clients/submitclient", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -90,13 +95,13 @@ function EnhancedExample() {
             isInvalid={!validClientSecret}
           />
           <Form.Control.Feedback type="invalid">
-            Client secret must be at least 8 characters long and contain only alphanumeric characters.
+            Client secret must be at least 8 characters long and must contain alphanumeric and special characters.
           </Form.Control.Feedback>
         </Col>
       </Form.Group>
 
       <div className="text-center">
-        <Button variant="primary" type="submit">
+        <Button variant="primary" type="submit" disabled={!isFormValid}> 
           Submit
         </Button>
       </div>

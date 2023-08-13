@@ -10,11 +10,13 @@ function ClientPage() {
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await fetch("your-api-endpoint");
+      try { 
+        const response = await fetch("http://localhost:5000/clients/getClient");
         if (response.ok) {
           const data = await response.json();
+          console.log(data);
           setClientData(data);
+          
         } else {
           console.error("Server request failed");
         }
@@ -27,11 +29,13 @@ function ClientPage() {
   }, []);
 
   return (
-    <Container className='p-4'>
-      <Row>
-        <Col><ClientCard data={clientData} /></Col>
-      </Row>
-    </Container>
+    <div style={{ display: 'grid', placeItems: 'center', minHeight: '100vh' }}>
+      <Container className='p-4'>
+        <Row>
+          <Col><ClientCard data={clientData} /></Col>
+        </Row>
+      </Container>
+    </div>
   );
 }
 
