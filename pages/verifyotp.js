@@ -1,12 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Card from "react-bootstrap/Card";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useRouter } from 'next/router';
 
 function VerifyOTPPage() {
+
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
   const [otp, setOTP] = useState("");
   const [message, setMessage] = useState("");
+  const [otpFromServer, setOtpFromServer] = useState("");
+
+  const router = useRouter();
 
   const handleOTPChange = (event) => {
     setOTP(event.target.value);
@@ -19,18 +28,53 @@ function VerifyOTPPage() {
     setOTP(simulatedOTP); // Simulate OTP sent
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // Perform OTP verification logic here
-    // For this example, we'll just simulate a success or failure
-    const simulatedOTP = "123456"; // Simulated OTP sent via email
+    console.log("OTP from server: " + otpFromServer)
+    console.log("OTP : " + otp)
+    if (parseInt(otp) == parseInt(otpFromServer)) {
+      try {
+        // Make a fetch call or perform any other necessary action
+        const response = await fetch("http://localhost:5000/auth/signup", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ email, username, password }) // Send email and otp in the request body
+        });
 
-    if (otp === simulatedOTP) {
-      setMessage("OTP verified successfully!");
+        if (response.ok) {
+          // Perform successful action, e.g., route to a success page
+          router.push('/clientdetails');
+        } else {
+          console.error("Failed to verify OTP:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error verifying OTP:", error);
+      }
     } else {
       setMessage("Invalid OTP. Please try again.");
     }
   };
+  
+  useEffect(() => {
+
+    const queryParams = new URLSearchParams(window.location.search);
+    const queryEmail = queryParams.get("email");
+    const queryUsername = queryParams.get("username");
+    const queryPassword = queryParams.get("password");
+
+    if (queryEmail && queryUsername && queryPassword) {
+      setEmail(queryEmail);
+      setUsername(queryUsername);
+      setPassword(queryPassword);
+    }
+
+    // Make a GET call to the server on component load
+    fetch(`http://localhost:5000/verifyotp?email=${queryEmail}`)
+      .then(response => response.json())
+      .then(data => setOtpFromServer(data.otp)); // Set OTP from server response
+  }, []);
 
   return (
     <Container className="d-flex justify-content-center align-items-center min-vh-100">
@@ -45,6 +89,8 @@ function VerifyOTPPage() {
               value={otp}
               onChange={handleOTPChange}
               required
+              maxLength="6" // Allow only 6 characters
+              pattern="[0-9]{6}" // Allow only numbers
             />
           </div>
 

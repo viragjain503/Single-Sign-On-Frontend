@@ -6,13 +6,9 @@ import Signup from "../pages/signup";
 
 function App() {
   return (
-    <Router>
-      <Switch>
-        <Route path="/" exact component={Login} />
-        <Route path="/signup" component={Signup} />
-        <Route path="/verify-otp" component={VerifyOTPPage} />
-      </Switch>
-    </Router>
+    <>
+      <Login/>
+    </>
   );
 }
 
