@@ -1,10 +1,13 @@
 import React from "react";
 import Login from "../pages/login";
+import Layout from "@/components/Layout";
 
 function App() {
   return (
     <>
-      <Login/>
+      <Layout>
+        <Login/>
+      </Layout>
     </>
   );
 }

@@ -5,6 +5,7 @@ import Container from "react-bootstrap/Container";
 import Card from "react-bootstrap/Card";
 import { useRouter } from "next/router";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Layout from "@/components/Layout";
 
 function Login() {
   const [identifier, setIdentifier] = useState("");
@@ -52,9 +53,10 @@ function Login() {
   };
 
   return (
+    <Layout>
     <Container className="d-flex justify-content-center align-items-center min-vh-100">
       <Card style={{ width: "300px", padding: "20px" }}>
-        <Card.Title className="text-center">Login</Card.Title>
+        <Card.Title className="text-center">Client Login</Card.Title>
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3" controlId="formBasicIdentifier">
             <Form.Label>Email</Form.Label>
@@ -96,6 +98,7 @@ function Login() {
         </Form>
       </Card>
     </Container>
+    </Layout>
   );
 }
 

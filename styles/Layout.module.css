@@ -1,0 +1,14 @@
+
+/* components/Layout.module.css */
+.layoutContainer {
+    background: linear-gradient(to bottom, #222, #444); /* Customize your gradient colors */
+    color: black; /* Text color on the dark background */
+    min-height: 100vh; /* Ensure the layout stretches to the full viewport height */
+    display: flex;
+    flex-direction: column;
+  }
+  
+#mymain{
+ 
+  }
+  

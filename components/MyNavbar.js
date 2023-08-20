@@ -19,7 +19,7 @@ function NavScrollExample() {
   };
 
   return (
-    <Navbar expand="lg" className="bg-body-tertiary" fixed="top">
+    <Navbar expand="lg" className="bg-body-tertiary" >
     <Container fluid>
       <Navbar.Brand href="#">Only Login</Navbar.Brand>
       <Navbar.Toggle aria-controls="navbarScroll" />

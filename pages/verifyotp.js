@@ -4,6 +4,7 @@ import Container from "react-bootstrap/Container";
 import Card from "react-bootstrap/Card";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useRouter } from 'next/router';
+import Layout from "@/components/Layout";
 
 function VerifyOTPPage() {
 
@@ -80,6 +81,7 @@ function VerifyOTPPage() {
   }, []);
 
   return (
+    <Layout>
     <Container className="d-flex justify-content-center align-items-center min-vh-100">
       <Card style={{ width: "300px", padding: "20px" }}>
         <Card.Title className="text-center">Verify OTP</Card.Title>
@@ -109,6 +111,7 @@ function VerifyOTPPage() {
         <p className="text-center mt-3">{message}</p>
       </Card>
     </Container>
+    </Layout>
   );
 }
 

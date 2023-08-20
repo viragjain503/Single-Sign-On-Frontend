@@ -5,6 +5,7 @@ import Container from "react-bootstrap/Container";
 import Card from "react-bootstrap/Card";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useRouter } from "next/router";
+import Layout from "@/components/Layout";
 
 function SignInPage() {
   const router = useRouter();
@@ -74,6 +75,7 @@ function SignInPage() {
   };
 
   return (
+    <Layout>
     <Container className="d-flex justify-content-center align-items-center min-vh-100">
       <Card style={{ width: "300px", padding: "20px" }}>
         <Card.Title className="text-center">Sign Up</Card.Title>
@@ -139,6 +141,7 @@ function SignInPage() {
         </Form>
       </Card>
     </Container>
+    </Layout>
   );
 }
 

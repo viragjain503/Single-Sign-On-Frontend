@@ -4,6 +4,8 @@ import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Card from "react-bootstrap/Card";
 import "bootstrap/dist/css/bootstrap.min.css";
+import SSOLayout from "@/components/SSOLayout";
+import Cookies from 'js-cookie';
 
 function LoginForm() {
   const [username, setUsername] = useState("");
@@ -21,11 +23,13 @@ function LoginForm() {
   if (!clientId) {
     return (
       <>
+        <SSOLayout>
         <Container className="d-flex justify-content-center align-items-center min-vh-100">
           <Card style={{ width: "300px", padding: "20px" }}>
             <Card.Title className="text-center">No client provided</Card.Title>
           </Card>
         </Container>
+        </SSOLayout>
       </>
     );
   }
@@ -56,14 +60,20 @@ function LoginForm() {
             clientId: clientId
           }),
         });
-  
+        const data = await response.json();
+        console.log(data);
         if (response.ok) {
           // Authentication successful, you can handle success here
           setLoginStatus('success');
           console.log('Authentication successful');
-          const data = await response.json();
-          console.log(data.token);
-        //   window.location.href = response.redirectUrl; 
+
+          // Storing data in sessionStorage
+          Cookies.set('jwtToken', data.token, { expires: 1 }); // Expires in 1 day
+          Cookies.set('permissions', data.permissions, { expires: 1 });
+          Cookies.set('username', data.username, { expires: 1 });          
+
+          // Redirect
+          window.location.href = data.redirectPage;
         } else {
           // Authentication failed, you can handle error here
           setLoginStatus('error');
@@ -77,6 +87,7 @@ function LoginForm() {
 
   };
   return (
+    <SSOLayout>
     <Container className="d-flex justify-content-center align-items-center min-vh-100">
       <Card style={{ width: "300px", padding: "20px" }}>
         <Card.Title className="text-center">Single Sign On</Card.Title>
@@ -114,6 +125,7 @@ function LoginForm() {
         </Form>
       </Card>
     </Container>
+    </SSOLayout>
   );
 }
 
