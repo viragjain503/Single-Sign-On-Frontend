@@ -38,6 +38,7 @@ function Login() {
 
       if(data.isValid){
         localStorage.setItem('jwtToken',data.token)
+        localStorage.setItem('Email',identifier) 
         router.push("/clients");
       }else{
         setMessage("Incorrect credentials")
@@ -56,7 +57,7 @@ function Login() {
         <Card.Title className="text-center">Login</Card.Title>
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3" controlId="formBasicIdentifier">
-            <Form.Label>Email or Username</Form.Label>
+            <Form.Label>Email</Form.Label>
             <Form.Control
               type="text"
               placeholder="Enter email or username"

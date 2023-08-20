@@ -5,9 +5,12 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import BasicExample from './Form';
+import MyNavbar from '../components/MyNavbar';
 
 function ClientDetails() {
   return (
+    <>
+    <MyNavbar/>
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
       <Container className="d-flex align-items-center justify-content-center">
         <Row>
@@ -17,6 +20,8 @@ function ClientDetails() {
         </Row>
       </Container>
     </div>
+    </>
+
   );
 }
 

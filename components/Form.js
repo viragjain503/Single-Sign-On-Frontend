@@ -9,6 +9,9 @@ function EnhancedExample() {
   const [clientId, setClientId] = useState("-----------");
   const [clientSecret, setClientSecret] = useState("");
   const [validClientSecret, setValidClientSecret] = useState(true);
+  const [expiresIn, setExpiresIn] = useState("15m");
+  const [permissions, setPermissions] = useState([]);
+  const [redirectPage, setRedirectPage] = useState("");
   const [isFormValid, setIsFormValid] = useState(false);
 
   const generateClientId = () => {
@@ -20,16 +23,50 @@ function EnhancedExample() {
     const newClientSecret = event.target.value;
     setClientSecret(newClientSecret);
 
-    if (newClientSecret.length >= 8 &&
-        /^[a-zA-Z0-9@#$!-]+$/.test(newClientSecret) &&
-        /[!@#$]/.test(newClientSecret)) {
+    if (
+      newClientSecret.length >= 8 &&
+      /^[a-zA-Z0-9@#$!-]+$/.test(newClientSecret) &&
+      /[!@#$]/.test(newClientSecret)
+    ) {
       setValidClientSecret(true);
-      setIsFormValid(true);
     } else {
       setValidClientSecret(false);
-      setIsFormValid(false);
     }
   };
+
+  const handleExpiresInChange = (event) => {
+    setExpiresIn(event.target.value);
+  };
+
+  const handlePermissionsChange = (event) => {
+    const selectedPermissions = Array.from(
+      event.target.selectedOptions,
+      (option) => option.value
+    );
+    setPermissions(selectedPermissions);
+  };
+
+  const handleRedirectPageChange = (event) => {
+    setRedirectPage(event.target.value);
+  };
+
+  useEffect(() => {
+    generateClientId();
+  }, []);
+
+  useEffect(() => {
+    if (
+      clientSecret &&
+      validClientSecret &&
+      expiresIn &&
+      permissions.length > 0 &&
+      redirectPage
+    ) {
+      setIsFormValid(true);
+    } else {
+      setIsFormValid(false);
+    }
+  }, [clientSecret, validClientSecret, expiresIn, permissions, redirectPage]);
 
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevent default form submission
@@ -38,6 +75,10 @@ function EnhancedExample() {
     const formData = {
       clientId: clientId,
       clientSecret: clientSecret,
+      expiresIn: expiresIn,
+      permissions: permissions,
+      redirectPage: redirectPage,
+      email: localStorage.getItem("Email")
     };
 
     try {
@@ -45,6 +86,7 @@ function EnhancedExample() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "token": localStorage.getItem("jwtToken")
         },
         body: JSON.stringify(formData),
       });
@@ -99,7 +141,55 @@ function EnhancedExample() {
           </Form.Control.Feedback>
         </Col>
       </Form.Group>
+{/* Expires In */}
+<Form.Group as={Row} className="mb-3" controlId="expiresIn">
+        <Form.Label column sm="4">
+          Expires in
+        </Form.Label>
+        <Col sm="8">
+          <Form.Select
+            value={expiresIn}
+            onChange={handleExpiresInChange}
+          >
+            <option value="15m">15 minutes</option>
+            <option value="30m">30 minutes</option>
+            <option value="60m">60 minutes</option>
+          </Form.Select>
+        </Col>
+      </Form.Group>
 
+      {/* Permissions */}
+      <Form.Group as={Row} className="mb-3" controlId="permissions">
+        <Form.Label column sm="4">
+          Permissions
+        </Form.Label>
+        <Col sm="8">
+          <Form.Select
+            multiple
+            value={permissions}
+            onChange={handlePermissionsChange}
+          >
+            <option value="Phone">Phone number</option>
+            <option value="Email">Email</option>
+            <option value="Username">Username</option>
+          </Form.Select>
+        </Col>
+      </Form.Group>
+
+      {/* Redirect Page */}
+      <Form.Group as={Row} className="mb-3" controlId="redirectPage">
+        <Form.Label column sm="4">
+          Redirect Page
+        </Form.Label>
+        <Col sm="8">
+          <Form.Control
+            type="text"
+            placeholder="Enter redirect page"
+            value={redirectPage}
+            onChange={handleRedirectPageChange}
+          />
+        </Col>
+      </Form.Group>
       <div className="text-center">
         <Button variant="primary" type="submit" disabled={!isFormValid}> 
           Submit
