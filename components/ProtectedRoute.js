@@ -1,32 +1,34 @@
 // components/ProtectedRoute.js
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-    
-const checkAuthenticationLogic = () => {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-  
-    useEffect(() => {
-      const token = localStorage.getItem('jwtToken');
-      setIsAuthenticated(token !== null);
-    }, []);
-  
-    return isAuthenticated;
+import { checkAuthentication } from '../utils/auth';
+
+const LoadingComponent = () => {
+  return <p>Loading...</p>;
+};
+
+const RedirectComponent = () => {
+  const router = useRouter();
+  useEffect(() => {
+    router.replace('/login');
+  }, []);
+
+  return null;
 };
 
 const ProtectedRoute = ({ children }) => {
-  const router = useRouter();
-
-  // Replace with your actual authentication check
-  const isAuthenticated = checkAuthenticationLogic();
-//   const isAuthenticated = false
+  const [loading, setLoading] = useState(true);
+  const isAuthenticated = checkAuthentication();
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      router.replace('/login');
-    }
-  }, [isAuthenticated]);
+    setLoading(false);
+  }, []);
 
-  return isAuthenticated ? children : null;
+  if (loading) {
+    return <LoadingComponent />;
+  }
+
+  return isAuthenticated ? children : <RedirectComponent />;
 };
 
 export default ProtectedRoute;

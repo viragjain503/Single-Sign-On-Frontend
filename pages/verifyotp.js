@@ -45,7 +45,8 @@ function VerifyOTPPage() {
 
         if (response.ok) {
           // Perform successful action, e.g., route to a success page
-          router.push('/clientdetails');
+          localStorage.setItem("jwtToken",data.token)
+          router.push("/clientdetails");
         } else {
           console.error("Failed to verify OTP:", response.statusText);
         }

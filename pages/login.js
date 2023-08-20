@@ -6,7 +6,6 @@ import Card from "react-bootstrap/Card";
 import { useRouter } from "next/router";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-
 function Login() {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
@@ -38,7 +37,8 @@ function Login() {
       const data = await response.json();
 
       if(data.isValid){
-        router.push("/clientdetails");
+        localStorage.setItem('jwtToken',data.token)
+        router.push("/clients");
       }else{
         setMessage("Incorrect credentials")
       }
