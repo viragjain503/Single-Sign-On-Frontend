@@ -12,7 +12,13 @@ function LoginForm() {
   const [password, setPassword] = useState("");
   const [clientId, setClientId] = useState(null); // Use state to store clientId
   const [loginStatus, setLoginStatus] = useState(null);
-
+  
+  const sendTokenToParent = (jwtToken) => {
+    const targetOrigin = 'http://localhost:3000'; // Replace with your actual parent window's origin
+    window.opener.postMessage({ jwtToken }, '*');
+    window.close(); // Close the child window
+  };
+  
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const clientIdParam = params.get("clientId");
@@ -66,14 +72,15 @@ function LoginForm() {
           // Authentication successful, you can handle success here
           setLoginStatus('success');
           console.log('Authentication successful');
-
+          
+          sendTokenToParent(data.token);
           // Storing data in sessionStorage
-          Cookies.set('jwtToken', data.token, { expires: 1 }); // Expires in 1 day
-          Cookies.set('permissions', data.permissions, { expires: 1 });
-          Cookies.set('username', data.username, { expires: 1 });          
+          // Cookies.set('jwtToken', data.token, { expires: 1 }); // Expires in 1 day
+          // Cookies.set('permissions', data.permissions, { expires: 1 });
+          // Cookies.set('username', data.username, { expires: 1 });          
 
           // Redirect
-          window.location.href = data.redirectPage;
+          // window.location.href = data.redirectPage;
         } else {
           // Authentication failed, you can handle error here
           setLoginStatus('error');
