@@ -1,34 +1,58 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+---
+title: Single Sign-On Server
+---
+
+# Single Sign-On Server
+
+The Single Sign-On Server is a powerful authentication/authorization solution built using Node.js and React.js that enables JWT (JSON Web Token) based Single Sign-On (SSO) for different applications within corporate environments. This project allows corporations to manage clients, set up various applications, and provide seamless authentication experiences for their users.
+
+## Demo
+![alt text](https://github.com/viragjain503/Single-Sign-On-Frontend/blob/main/Demo.gif)
+
+## Features
+
+- **Corporate Sign Up**: Corporations can sign up on the application to create an account.
+- **Email Verification**: After signing up, email verification is required via an OTP (One-Time Password) sent to the registered email address.
+- **Client Configuration**: Corporations can add new clients by providing details such as `clientId` (public), `clientSecret` (private between corporation and server), `expiresIn`, `Redirect URL`, and `Permissions`.
+- **Client Management**: A client management page is available to view and delete existing clients.
+- **Demo Page**: Explore a demo page that showcases how the Single Sign-On works.
+- **Easy Integration**: A simple flow to integrate Single Sign-On into your application.
+- **JWT-based Authentication**: Secure authentication using JWT tokens, signed with the shared `clientSecret` key.
 
 ## Getting Started
 
-First, run the development server:
+Follow these steps to get started with the Single Sign-On Server:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+1. **Corporate Sign Up**: Sign up your corporation on the application.
+2. **Email Verification**: Verify your email by entering the OTP received in your inbox.
+3. **Client Configuration**: Provide client details like `clientId`, `clientSecret`, `expiresIn`, `Redirect URL`, and `Permissions`.
+4. **Client Management**: Manage your clients on the client management page, including deletion.
+5. **Demo Page**: Check out the demo page to understand the Single Sign-On process.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Single Sign-On Flow
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+Integrating Single Sign-On into your application is straightforward:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+1. **Add SSO Button**: Add a Single Sign-On button to your application.
+2. **Initiate Sign-On**: When the button is clicked, open the Single Sign-On page with the valid `clientId` as a URL parameter.
+3. **User Authentication**: Once a user signs in with the correct credentials, our server generates a JWT token signed with the shared `clientSecret` key.
+4. **Token Usage**: Use the generated JWT token in the header of your service calls. This way, each service call can be verified using the `clientSecret` key.
 
-## Learn More
+## Technologies Used
 
-To learn more about Next.js, take a look at the following resources:
+- **Node.js**: Backend server logic is implemented using Node.js.
+- **React.js**: User interfaces and frontend components are developed using React.js.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Contributing
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Contributions are welcome! If you'd like to enhance this Single Sign-On Server or fix any issues, feel free to open pull requests.
 
-## Deploy on Vercel
+## License
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+This project is licensed under the [MIT License](LICENSE).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+---
+
+Give your applications the advantage of Single Sign-On with our Node.js and React.js based solution. Manage clients, provide seamless authentication, and enhance your corporate security. Try it out today!
+
+For more details, visit our [website](https://www.example-sso-server.com) or contact us at [contact@example-sso-server.com](mailto:contact@example-sso-server.com).
