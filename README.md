@@ -55,4 +55,3 @@ This project is licensed under the [MIT License](LICENSE).
 
 Give your applications the advantage of Single Sign-On with our Node.js and React.js based solution. Manage clients, provide seamless authentication, and enhance your corporate security. Try it out today!
 
-For more details, visit our [website](https://www.example-sso-server.com) or contact us at [contact@example-sso-server.com](mailto:contact@example-sso-server.com).
